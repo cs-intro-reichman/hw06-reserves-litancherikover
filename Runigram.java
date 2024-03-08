@@ -102,7 +102,6 @@ public class Runigram {
 	/**
 	 * Returns an image which is the vertically flipped version of the given image. 
 	 */
-	//litan- change the name of varibles
 	public static Color[][] flippedVertically(Color[][] image)
 	{
 		Color[][] FlippedImage = new Color[image.length][image[0].length];
@@ -177,10 +176,11 @@ public class Runigram {
 	 */
 	public static Color blend(Color c1, Color c2, double alpha) 
 	{
-		double r = (double)(c1.getRed() * alpha + c2.getRed() * (1 - alpha));
-		double g = (double)(c1.getGreen() * alpha + c2.getGreen() * (1 - alpha));
-		double b = (double)(c1.getBlue() * alpha + c2.getBlue() * (1 - alpha));	
-		Color blended = new Color((int)r, (int)g, (int)b);
+		//calculations according to the formula
+		double red = (double)(c1.getRed() * alpha + c2.getRed() * (1 - alpha));
+		double green = (double)(c1.getGreen() * alpha + c2.getGreen() * (1 - alpha));
+		double blue = (double)(c1.getBlue() * alpha + c2.getBlue() * (1 - alpha));	
+		Color blended = new Color((int)red, (int)green, (int)blue);
 		return blended;
 	}
 	
@@ -192,16 +192,17 @@ public class Runigram {
 	 */
 	public static Color[][] blend(Color[][] image1, Color[][] image2, double alpha) 
 	{
-		Color[][] blendImg = new Color[image1.length][image1[0].length]; //asuumimg the dimentions sizes are equale
+		//The two images should be the same size/dimensions
+		Color[][] blended = new Color[image1.length][image1[0].length]; 
 		for (int i = 0; i < image1.length; i++ ) 
 		{ 
 			for (int j = 0; j < image1[i].length; j++) 
 			{
-					blendImg[i][j] = blend(image1[i][j], image2[i][j], alpha);
+				blended[i][j] = blend(image1[i][j], image2[i][j], alpha);
 			}
 			
 		}
-		return blendImg;
+		return blended;
 	}
 
 	/**
@@ -212,21 +213,16 @@ public class Runigram {
 	 */
 	public static void morph(Color[][] source, Color[][] target, int n) 
 	{
-		if (source.length != target.length || source[0].length != target[0].length) {
-
-			target = scaled(target, source.length, source[0].length);
-			
+		if (source.length != target.length || source[0].length != target[0].length) 
+		{
+			target = scaled(target, source.length, source[0].length);	
 		}
-		
-		for (int i = 0; i <= n ; i++ ) {
-
+		for (int i = 0; i <= n ; i++ ) 
+		{
 			display(blend(source, target, ((n - i) / n)));
-			StdDraw.pause(500);
-			
+			StdDraw.pause(500);	
 		}
-
 	}
-	
 	/** Creates a canvas for the given image. */
 	public static void setCanvas(Color[][] image) {
 		StdDraw.setTitle("Runigram 2023");
